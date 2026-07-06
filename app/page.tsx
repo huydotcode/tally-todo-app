@@ -9,6 +9,7 @@ import { AuthStatus } from "../components/AuthStatus";
 import { FilterBar } from "../components/FilterBar";
 import { TaskList } from "../components/TaskList";
 import { TaskFormModal } from "../components/TaskFormModal";
+import { ConfirmModal } from "../components/ConfirmModal";
 import { QuickAddBar } from "../components/QuickAddBar";
 import { Toast, ToastItem } from "../components/Toast";
 import { TaskService } from "../lib/services/taskService";
@@ -41,6 +42,7 @@ export default function Home() {
   
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState<Task | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   
@@ -174,7 +176,14 @@ export default function Home() {
     }
   };
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = (task: Task) => {
+    setTaskToDelete(task);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!taskToDelete) return;
+    const id = taskToDelete.id;
+    setTaskToDelete(null);
     try {
       await deleteTask(id);
       addToast("Đã xóa công việc thành công");
@@ -292,6 +301,18 @@ export default function Home() {
         onClose={() => setIsFormOpen(false)}
         onSubmit={handleFormSubmit}
         task={editingTask}
+      />
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={taskToDelete !== null}
+        title="Xác nhận xóa"
+        message={`Bạn có chắc chắn muốn xóa công việc "${taskToDelete?.title}"? Hành động này không thể hoàn tác.`}
+        confirmText="Xóa công việc"
+        cancelText="Hủy"
+        onConfirm={handleConfirmDelete}
+        onCancel={() => setTaskToDelete(null)}
+        type="danger"
       />
     </div>
   );

@@ -8,7 +8,7 @@ interface TaskListProps {
   tasks: Task[];
   onToggle: (id: string, completed: boolean) => void;
   onEdit: (task: Task) => void;
-  onDelete: (id: string) => void;
+  onDelete: (task: Task) => void;
 }
 
 export const TaskList = forwardRef<HTMLDivElement, TaskListProps>(

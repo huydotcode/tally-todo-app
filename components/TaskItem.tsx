@@ -7,14 +7,12 @@ interface TaskItemProps {
   task: Task;
   onToggle: (id: string, completed: boolean) => void;
   onEdit: (task: Task) => void;
-  onDelete: (id: string) => void;
+  onDelete: (task: Task) => void;
 }
 
 export function TaskItem({ task, onToggle, onEdit, onDelete }: TaskItemProps) {
   const handleDeleteClick = () => {
-    if (window.confirm(`Bạn có chắc chắn muốn xóa công việc "${task.title}"?`)) {
-      onDelete(task.id);
-    }
+    onDelete(task);
   };
 
   const getPriorityLabel = (priority: string) => {
