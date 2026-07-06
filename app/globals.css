@@ -19,9 +19,6 @@
   --radius-full: 9999px;
 }
 
-body {
-  background-color: var(--color-neutral);
-  color: var(--color-secondary);
-  font-family: var(--font-sans);
-}
+@import "./tally.css";
+
 
