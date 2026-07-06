@@ -1,6 +1,6 @@
 import { TaskService } from "../../lib/services/taskService";
 import { ITaskRepository } from "../../lib/repositories/types";
-import { Task, CreateTaskInput, UpdateTaskInput } from "../../lib/types/task";
+import { Task, CreateTaskInput } from "../../lib/types/task";
 
 describe("TaskService Unit Tests", () => {
   let mockRepository: jest.Mocked<ITaskRepository>;

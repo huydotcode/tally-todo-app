@@ -51,17 +51,17 @@ describe("migrateGuestTasks Unit Tests", () => {
       title: "Task 1",
       completed: false,
       priority: "low",
-      description: undefined,
-      category: undefined,
-      due_date: undefined,
+      description: null,
+      category: null,
+      due_date: null,
     });
     expect(mockCreate).toHaveBeenNthCalledWith(2, {
       title: "Task 2",
       completed: true,
       priority: "high",
       description: "desc",
-      category: undefined,
-      due_date: undefined,
+      category: null,
+      due_date: null,
     });
 
     // Verify localStorage is cleaned up

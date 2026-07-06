@@ -51,8 +51,9 @@ export default function LoginPage() {
           router.push("/");
         }, 1000);
       }
-    } catch (err: any) {
-      addToast(err.message || "Thao tác thất bại", "error");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Thao tác thất bại";
+      addToast(errMsg, "error");
     } finally {
       setLoading(false);
     }

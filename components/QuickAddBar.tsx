@@ -89,8 +89,9 @@ export function QuickAddBar({ onSubmit, onShowToast }: QuickAddBarProps) {
       setCategory("none");
       setDueDate("");
       setIsFocused(false);
-    } catch (err: any) {
-      onShowToast(err.message || "Thao tác thất bại", "error");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Thao tác thất bại";
+      onShowToast(errMsg, "error");
     }
   };
 

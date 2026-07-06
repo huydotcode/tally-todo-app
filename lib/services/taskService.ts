@@ -109,13 +109,16 @@ export class TaskService {
     const priorityWeight = { high: 3, medium: 2, low: 1 };
 
     return [...tasks].sort((a, b) => {
-      let valA: any = a[sortBy];
-      let valB: any = b[sortBy];
-
       if (sortBy === "priority") {
-        valA = priorityWeight[a.priority] || 0;
-        valB = priorityWeight[b.priority] || 0;
+        const weightA = priorityWeight[a.priority] || 0;
+        const weightB = priorityWeight[b.priority] || 0;
+        if (weightA < weightB) return isAsc ? -1 : 1;
+        if (weightA > weightB) return isAsc ? 1 : -1;
+        return 0;
       }
+
+      const valA = a[sortBy];
+      const valB = b[sortBy];
 
       if (valA === null || valA === undefined) return 1;
       if (valB === null || valB === undefined) return -1;

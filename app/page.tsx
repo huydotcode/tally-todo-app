@@ -85,7 +85,7 @@ export default function Home() {
           } else if (!result.success && result.error) {
             addToast(`Lỗi đồng bộ dữ liệu: ${result.error}`, "error");
           }
-        } catch (e: any) {
+        } catch (e: unknown) {
           console.error("Migration failed:", e);
         } finally {
           setHasMigratedInSession(true);
@@ -137,8 +137,9 @@ export default function Home() {
           ? `Đã hoàn thành: "${updated.title}"`
           : `Đã khôi phục: "${updated.title}"`
       );
-    } catch (e: any) {
-      addToast(e.message || "Không thể cập nhật trạng thái.", "error");
+    } catch (e: unknown) {
+      const errMsg = e instanceof Error ? e.message : "Không thể cập nhật trạng thái.";
+      addToast(errMsg, "error");
     }
   };
 
@@ -170,8 +171,9 @@ export default function Home() {
           }
         }, 100);
       }
-    } catch (e: any) {
-      addToast(e.message || "Thao tác thất bại.", "error");
+    } catch (e: unknown) {
+      const errMsg = e instanceof Error ? e.message : "Thao tác thất bại.";
+      addToast(errMsg, "error");
       throw e;
     }
   };
@@ -187,8 +189,9 @@ export default function Home() {
     try {
       await deleteTask(id);
       addToast("Đã xóa công việc thành công");
-    } catch (e: any) {
-      addToast(e.message || "Không thể xóa công việc.", "error");
+    } catch (e: unknown) {
+      const errMsg = e instanceof Error ? e.message : "Không thể xóa công việc.";
+      addToast(errMsg, "error");
     }
   };
 

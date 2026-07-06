@@ -97,7 +97,7 @@ export function TaskFormModal({ isOpen, onClose, onSubmit, task }: TaskFormModal
     try {
       await onSubmit(payload);
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Submission failed:", err);
     }
   };

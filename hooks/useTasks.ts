@@ -1,15 +1,17 @@
 import { useEffect, useState, useCallback } from "react";
+import { User } from "@supabase/supabase-js";
 import { Task, CreateTaskInput, UpdateTaskInput } from "../lib/types/task";
 import { RepositoryFactory } from "../lib/repositories/repositoryFactory";
 import { TaskService } from "../lib/services/taskService";
 
-export function useTasks(user: any) {
+export function useTasks(user: User | null) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [warning, setWarning] = useState<string | null>(null);
 
   const loadTasks = useCallback(async () => {
+    await Promise.resolve();
     setLoading(true);
     setError(null);
     try {
@@ -17,8 +19,9 @@ export function useTasks(user: any) {
       const service = new TaskService(repo);
       const data = await service.getAllTasks();
       setTasks(data);
-    } catch (err: any) {
-      setError(err.message || "Không thể tải danh sách công việc.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Không thể tải danh sách công việc.";
+      setError(errMsg);
     } finally {
       setLoading(false);
     }
@@ -38,8 +41,9 @@ export function useTasks(user: any) {
       setTasks((prev) => [...prev, task]);
       if (warn) setWarning(warn);
       return { task, warning: warn };
-    } catch (err: any) {
-      setError(err.message || "Không thể thêm công việc.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Không thể thêm công việc.";
+      setError(errMsg);
       throw err;
     }
   };
@@ -54,8 +58,9 @@ export function useTasks(user: any) {
       setTasks((prev) => prev.map((t) => (t.id === id ? task : t)));
       if (warn) setWarning(warn);
       return { task, warning: warn };
-    } catch (err: any) {
-      setError(err.message || "Không thể cập nhật công việc.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Không thể cập nhật công việc.";
+      setError(errMsg);
       throw err;
     }
   };
@@ -67,8 +72,9 @@ export function useTasks(user: any) {
       const service = new TaskService(repo);
       await service.deleteTask(id);
       setTasks((prev) => prev.filter((t) => t.id !== id));
-    } catch (err: any) {
-      setError(err.message || "Không thể xóa công việc.");
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : "Không thể xóa công việc.";
+      setError(errMsg);
       throw err;
     }
   };
@@ -92,10 +98,11 @@ export function useTasks(user: any) {
       const updatedTask = await service.toggleTaskComplete(id, completed);
       setTasks((prev) => prev.map((t) => (t.id === id ? updatedTask : t)));
       return updatedTask;
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Rollback on error
       setTasks(originalTasks);
-      setError(err.message || "Không thể cập nhật trạng thái công việc.");
+      const errMsg = err instanceof Error ? err.message : "Không thể cập nhật trạng thái công việc.";
+      setError(errMsg);
       throw err;
     }
   };
@@ -114,3 +121,4 @@ export function useTasks(user: any) {
     setError,
   };
 }
+

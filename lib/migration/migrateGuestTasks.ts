@@ -1,4 +1,5 @@
 import { SupabaseTaskRepository } from "../repositories/supabaseTaskRepository";
+import { Task } from "../types/task";
 
 const LOCAL_STORAGE_KEY = "tally_tasks";
 const MIGRATED_FLAG_KEY = "tally_tasks_migrated";
@@ -19,7 +20,7 @@ export async function migrateGuestTasks(): Promise<{ success: boolean; count: nu
     return { success: true, count: 0 };
   }
 
-  let guestTasks: any[] = [];
+  let guestTasks: Partial<Task>[] = [];
   try {
     guestTasks = JSON.parse(guestTasksStr);
     if (!Array.isArray(guestTasks)) {
@@ -36,17 +37,18 @@ export async function migrateGuestTasks(): Promise<{ success: boolean; count: nu
   }
 
   const supabaseRepo = new SupabaseTaskRepository();
-  const migratedTasks: any[] = [];
+  const migratedTasks: Task[] = [];
 
   try {
     for (const task of guestTasks) {
+      if (!task.title) continue;
       const created = await supabaseRepo.create({
         title: task.title,
-        description: task.description,
-        completed: task.completed,
-        priority: task.priority,
-        category: task.category,
-        due_date: task.due_date,
+        description: task.description || null,
+        completed: task.completed || false,
+        priority: task.priority || "medium",
+        category: task.category || null,
+        due_date: task.due_date || null,
       });
       migratedTasks.push(created);
     }
@@ -55,12 +57,13 @@ export async function migrateGuestTasks(): Promise<{ success: boolean; count: nu
     localStorage.setItem(MIGRATED_FLAG_KEY, "true");
 
     return { success: true, count: migratedTasks.length };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Migration failed midway, keeping guest tasks:", err);
     return { 
       success: false, 
       count: migratedTasks.length, 
-      error: err?.message || "Lỗi đồng bộ giữa chừng." 
+      error: err instanceof Error ? err.message : "Lỗi đồng bộ giữa chừng." 
     };
   }
 }
+
