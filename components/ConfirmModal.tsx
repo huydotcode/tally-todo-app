@@ -53,11 +53,7 @@ export function ConfirmModal({
           </button>
           <button
             onClick={onConfirm}
-            className="btn"
-            style={{
-              backgroundColor: isDanger ? "var(--color-error)" : "var(--color-primary)",
-              color: "var(--color-neutral)",
-            }}
+            className={`btn ${isDanger ? "btn-danger" : "btn-primary"}`}
           >
             {confirmText}
           </button>

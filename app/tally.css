@@ -287,6 +287,19 @@ button, input, textarea, select {
   background-color: #FEE2E2;
 }
 
+.btn-danger {
+  background-color: var(--color-error);
+  color: var(--color-neutral);
+  padding: 12px 20px;
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  letter-spacing: 0.01em;
+}
+.btn-danger:hover {
+  background-color: #B91C1C;
+  color: var(--color-neutral);
+}
+
 .btn-small {
   padding: 6px 12px;
   font-size: 13px;
