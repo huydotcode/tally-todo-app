@@ -249,6 +249,7 @@ button, input, textarea, select {
 }
 .btn-primary:hover {
   background-color: var(--color-primary-hover);
+  color: var(--color-neutral);
 }
 
 .btn-secondary {
@@ -262,6 +263,7 @@ button, input, textarea, select {
 }
 .btn-secondary:hover {
   background-color: var(--color-neutral);
+  color: var(--color-secondary);
 }
 
 .btn-icon {
@@ -770,6 +772,7 @@ button, input, textarea, select {
 
 .auth-back-btn:hover {
   opacity: 1;
+  color: var(--color-secondary);
 }
 
 .auth-header {
