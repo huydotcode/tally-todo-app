@@ -5,7 +5,7 @@ Tally là ứng dụng quản lý công việc (Todo List) được thiết kế
 ---
 
 ## 🔗 Liên kết Dự án
-*   **Demo Online**: [https://tally-todo.vercel.app](https://tally-todo.vercel.app) *(Sẽ cập nhật sau khi hoàn thành deploy)*
+*   **Demo Online**: [https://tally-todo-app.vercel.app/](https://tally-todo-app.vercel.app/)
 *   **Mã nguồn**: [GitHub Repository](https://github.com/huydotcode/tally-todo-app)
 *   **Tài liệu Thiết kế**: [DESIGN.md](DESIGN.md) | [UI_HISTORY.md](UI_HISTORY.md)
 
